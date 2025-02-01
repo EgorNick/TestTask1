@@ -43,7 +43,7 @@ ViewData["Title"] = "Home Page";
             .then(response => response.json())
             .then(data => {
                 alert("Данные отправлены!");
-                mouseCoordinates = []; // Очищаем массив после отправки
+                mouseCoordinates = [];
             })
             .catch(error => {
                 console.error("Ошибка:", error);
