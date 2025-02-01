@@ -1,0 +1,52 @@
+﻿@{
+ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Координаты мышки</h1>
+</div>
+
+<form method="post" id="mouseForm">
+    <input type="hidden" id="currentTime" name="currentTime" />
+    <button type="submit">Отправить данные</button>
+</form>
+
+<script>
+    let mouseCoordinates = [];
+
+    document.addEventListener('mousemove', function (e) {
+
+        const mouseData = {
+            X: e.clientX,
+            Y: e.clientY,
+            Time: new Date().toISOString()
+        };
+
+        mouseCoordinates.push(mouseData);
+    });
+
+    document.getElementById('mouseForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        if (mouseCoordinates.length === 0) {
+            alert("Нет данных для отправки!");
+            return;
+        }
+
+        fetch('/Coordinate/AddIntoDb', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(mouseCoordinates)
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert("Данные отправлены!");
+                mouseCoordinates = []; // Очищаем массив после отправки
+            })
+            .catch(error => {
+                console.error("Ошибка:", error);
+            });
+    });
+</script>
