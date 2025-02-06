@@ -1,57 +1,39 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using TestTask1.Core.Entitys;
 using TestTask1.Data;
-using TestTask1.Models;
+using TestTask1.Services;
 
 namespace TestTask1.Controllers;
 
 public class CoordinateController : Controller
 {
-    private readonly ISavingInfo _savingInfo;
+    private readonly CoordinateService _coordinateService;
 
-    public CoordinateController(ISavingInfo savingInfo)
+    public CoordinateController(CoordinateService coordinateService)
     {
-        _savingInfo = savingInfo;
+        _coordinateService = coordinateService;
     }
 
     public IActionResult Index()
     {
         return View();
     }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> AddIntoDb([FromBody] List<CoordinateModel> coordinates)
+    
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [HttpPost("Coordinate/AddIntoDb")]
+    public async Task<IActionResult> AddIntoDb([FromBody] List<Coordinate>? coordinates)
     {
         if (coordinates == null || coordinates.Count == 0)
         {
             return BadRequest();
         }
-        else
-        {
-            for (int i = 0; i < coordinates.Count; i++)
-            {
-                if (_savingInfo.SaveInfoIntoDb(coordinates[i]))
-                {
-                    TempData["SuccessMessage"] = "Данные успешно сохранены и отправлены!";
-                }
-                else
-                {
-                    TempData["ErrorMessage"] = "Произошла ошибка при сохранении данных в базу.";
-                    Console.WriteLine(_savingInfo.ErrorMessage);
-                }
-            }
-        }
-        return Ok(new {message = "It is OK"});
-    }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        foreach (var coordinate in coordinates)
+        {
+            await _coordinateService.SaveCoordinateAsync(coordinate);
+        }
+        return Ok(new {message = "Данные сохранены"});
     }
+    
 }
