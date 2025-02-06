@@ -13,7 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddScoped<ICoordinateSaving, CoordinateSaving>();
+builder.Services.AddScoped<ICoordinateRepository, CoordinateRepository>();
 builder.Services.AddScoped<CoordinateService>();
 
 var app = builder.Build();

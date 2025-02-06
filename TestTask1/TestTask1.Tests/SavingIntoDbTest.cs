@@ -10,12 +10,12 @@ namespace TestTask1.Tests
 
     public class SavingInfoTests
     {
-        private readonly Mock<ICoordinateSaving> _mockContext;
+        private readonly Mock<ICoordinateRepository> _mockContext;
         private readonly CoordinateService _coordinateService;
 
         public SavingInfoTests()
         {
-            _mockContext = new Mock<ICoordinateSaving>();
+            _mockContext = new Mock<ICoordinateRepository>();
             _coordinateService = new CoordinateService(_mockContext.Object);
         }
 

@@ -3,13 +3,13 @@ using TestTask1.Data;
 
 namespace TestTask1.Infrastructure;
 
-public class CoordinateSaving : ICoordinateSaving
+public class CoordinateRepository : ICoordinateRepository
 {
     private readonly AppDbContext _context;
     
     public string ErrorMessage { get; private set; }
 
-    public CoordinateSaving(AppDbContext context)
+    public CoordinateRepository(AppDbContext context)
     {
         _context = context;
     }

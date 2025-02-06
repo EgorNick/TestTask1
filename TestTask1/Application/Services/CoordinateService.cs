@@ -5,16 +5,16 @@ namespace TestTask1.Services;
 
 public class CoordinateService
 {
-    private readonly ICoordinateSaving _coordinateSaving;
+    private readonly ICoordinateRepository _coordinateRepository;
 
-    public CoordinateService(ICoordinateSaving coordinateSaving)
+    public CoordinateService(ICoordinateRepository coordinateRepository)
     {
-        _coordinateSaving = coordinateSaving;
+        _coordinateRepository = coordinateRepository;
     }
 
     public async Task<bool> SaveCoordinateAsync(Coordinate coordinate)
     {
         Console.WriteLine($"Saving coordinate: {coordinate}");
-        return await _coordinateSaving.SaveAsync(coordinate);
+        return await _coordinateRepository.SaveAsync(coordinate);
     }
 }

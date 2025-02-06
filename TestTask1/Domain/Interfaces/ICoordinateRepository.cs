@@ -1,6 +1,6 @@
 namespace TestTask1.Core.Entitys;
 
-public interface ICoordinateSaving
+public interface ICoordinateRepository
 {
     Task<bool> SaveAsync(Coordinate coordinate);
 }
